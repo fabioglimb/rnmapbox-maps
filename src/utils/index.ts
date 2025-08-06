@@ -64,20 +64,20 @@ export function runNativeMethod<ReturnType = NativeArg>(
     throw new Error(`Could not find handle for native ref ${module}.${name}`);
   }
 
-  // @ts-expect-error TS says that string cannot be used to index Turbomodules.
+  // TS says that string cannot be used to index Turbomodules.
   // It can, it's just not pretty.
   return turboModule[name](handle, ...args);
 }
 
 export function cloneReactChildrenWithProps(
-  children: Parameters<typeof React.Children.map>[0],
+  children: React.ReactNode,
   propsToAdd: { [key: string]: string } = {},
-) {
+): React.ReactNode {
   if (!children) {
     return null;
   }
 
-  let foundChildren: typeof children[] | null = null;
+  let foundChildren: React.ReactNode[] | null = null;
 
   if (!Array.isArray(children)) {
     foundChildren = [children];
