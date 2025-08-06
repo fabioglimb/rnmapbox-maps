@@ -66,7 +66,7 @@ export function runNativeMethod<ReturnType = NativeArg>(
 
   // TS says that string cannot be used to index Turbomodules.
   // It can, it's just not pretty.
-  return turboModule[name](handle, ...args);
+  return (turboModule as any)[name](handle, ...args);
 }
 
 export function cloneReactChildrenWithProps(
