@@ -30,7 +30,8 @@ class RNMBXVectorSourceManager(reactApplicationContext: ReactApplicationContext)
 
     @ReactProp(name = "hitbox")
     override fun setHitbox(source: RNMBXVectorSource, map: Dynamic) {
-        source.setHitbox(map.asMap())
+        val readableMap = map.asMap() ?: return
+        source.setHitbox(readableMap)
     }
 
     @ReactProp(name = "existing")

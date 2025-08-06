@@ -40,14 +40,14 @@ import com.mapbox.maps.plugin.viewport.data.OverviewViewportStateOptions
 import com.rnmapbox.rnmbx.events.constants.EventKeys
 
 class BaseEvent(
-    private val surfaceId: Int,
-    private val viewTag: Int,
-    private val eventName: String,
+    private val surfaceIdArg: Int,
+    private val viewTagArg: Int,
+    private val eventNameArg: String,
     private val eventData: WritableMap,
     private val canCoalesce: Boolean = false
-): Event<BaseEvent>(surfaceId, viewTag) {
+): Event<BaseEvent>(surfaceIdArg, viewTagArg) {
     override fun getEventName(): String {
-        return eventName
+        return eventNameArg
     }
 
     override fun canCoalesce(): Boolean {

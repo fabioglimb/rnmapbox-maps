@@ -139,8 +139,8 @@ open class RNMBXMapViewManager(context: ReactApplicationContext, val viewTagReso
 
     @ReactProp(name = "localizeLabels")
     override fun setLocalizeLabels(mapView: RNMBXMapView, localeMap: Dynamic) {
-        val locale = localeMap.asMap().getString("locale")
-        val layerIds = localeMap.asMap().getArray("layerIds")?.toArrayList()?.mapNotNull {it.toString()}
+        val locale = localeMap.asMap()?.getString("locale")
+        val layerIds = localeMap.asMap()?.getArray("layerIds")?.toArrayList()?.mapNotNull {it.toString()}
         mapView.setReactLocalizeLabels(locale, layerIds)
     }
 
@@ -157,9 +157,9 @@ open class RNMBXMapViewManager(context: ReactApplicationContext, val viewTagReso
 
     @ReactProp(name = "gestureSettings")
     override fun setGestureSettings(mapView: RNMBXMapView, settings: Dynamic) {
+        val map = settings.asMap() ?: return
         mapView.withMap {
            it.gesturesPlugin {
-               val map = settings.asMap()
                this.updateSettings {
                    map.getAndLogIfNotBoolean("doubleTapToZoomInEnabled", LOG_TAG)?.let {
                        this.doubleTapToZoomInEnabled = it
@@ -207,7 +207,8 @@ open class RNMBXMapViewManager(context: ReactApplicationContext, val viewTagReso
 
     @ReactProp(name = "styleURL")
     override fun setStyleURL(mapView: RNMBXMapView, styleURL:Dynamic) {
-        mapView.setReactStyleURL(styleURL.asString())
+        val styleUrl = styleURL.asString() ?: return
+        mapView.setReactStyleURL(styleUrl)
     }
 
     @ReactProp(name = "preferredFramesPerSecond")
@@ -257,7 +258,8 @@ open class RNMBXMapViewManager(context: ReactApplicationContext, val viewTagReso
 
     @ReactProp(name = "attributionViewMargins")
     override fun setAttributionViewMargins(mapView: RNMBXMapView, scaleBarMargins: Dynamic) {
-        mapView.setReactAttributionViewMargins(scaleBarMargins.asMap())
+        val margins = scaleBarMargins.asMap() ?: return
+        mapView.setReactAttributionViewMargins(margins)
     }
 
     @ReactProp(name = "attributionViewPosition")
@@ -282,12 +284,14 @@ open class RNMBXMapViewManager(context: ReactApplicationContext, val viewTagReso
 
     @ReactProp(name = "scaleBarViewMargins")
     override fun setScaleBarViewMargins(mapView: RNMBXMapView, scaleBarMargins: Dynamic) {
-        mapView.setReactScaleBarViewMargins(scaleBarMargins.asMap())
+        val margins = scaleBarMargins.asMap() ?: return
+        mapView.setReactScaleBarViewMargins(margins)
     }
 
     @ReactProp(name = "scaleBarPosition")
     override fun setScaleBarPosition(mapView: RNMBXMapView, scaleBarPosition: Dynamic) {
-        mapView.setReactScaleBarPosition(scaleBarPosition.asMap())
+        val position = scaleBarPosition.asMap() ?: return
+        mapView.setReactScaleBarPosition(position)
     }
 
     @ReactProp(name = "compassEnabled")
@@ -302,7 +306,8 @@ open class RNMBXMapViewManager(context: ReactApplicationContext, val viewTagReso
 
     @ReactProp(name = "compassViewMargins")
     override fun setCompassViewMargins(mapView: RNMBXMapView, compassViewMargins: Dynamic) {
-        mapView.setReactCompassViewMargins(compassViewMargins.asMap())
+        val margins = compassViewMargins.asMap() ?: return
+        mapView.setReactCompassViewMargins(margins)
     }
 
     @ReactProp(name = "compassViewPosition")
@@ -312,7 +317,8 @@ open class RNMBXMapViewManager(context: ReactApplicationContext, val viewTagReso
 
     @ReactProp(name = "compassPosition")
     override fun setCompassPosition(mapView: RNMBXMapView, compassMargins: Dynamic) {
-        mapView.setReactCompassPosition(compassMargins.asMap())
+        val margins = compassMargins.asMap() ?: return
+        mapView.setReactCompassPosition(margins)
     }
 
     @ReactProp(name = "contentInset") @Suppress("UNUSED_PARAMETER")

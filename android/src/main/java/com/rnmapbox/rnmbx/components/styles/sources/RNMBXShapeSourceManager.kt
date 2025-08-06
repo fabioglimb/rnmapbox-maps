@@ -82,7 +82,8 @@ class RNMBXShapeSourceManager(private val mContext: ReactApplicationContext, val
 
     @ReactProp(name = "shape")
     override fun setShape(source: RNMBXShapeSource, geoJSONStr: Dynamic) {
-        source.setShape(geoJSONStr.asString())
+        val geoJSON = geoJSONStr.asString() ?: return
+        source.setShape(geoJSON)
     }
 
     @ReactProp(name = "cluster")
@@ -103,14 +104,14 @@ class RNMBXShapeSourceManager(private val mContext: ReactApplicationContext, val
     @ReactProp(name = "clusterProperties")
     override fun setClusterProperties(source: RNMBXShapeSource, map: Dynamic) {
         val properties = HashMap<String, Any>()
-        val iterator = map.asMap().keySetIterator()
+        val readableMap = map.asMap() ?: return
+        val iterator = readableMap.keySetIterator()
         while (iterator.hasNextKey()) {
             val name = iterator.nextKey()
-            val expressions = map.asMap().getArray(name)
+            val expressions = readableMap.getArray(name)
             val builder: MutableList<Value> = ArrayList()
             for (iExp in 0 until expressions!!.size()) {
-                var argument: Expression
-                argument = when (expressions.getType(iExp)) {
+                val argument: Expression = when (expressions.getType(iExp)) {
                     ReadableType.Array -> ExpressionParser.from(
                         expressions.getArray(iExp)
                     )!!
@@ -158,7 +159,8 @@ class RNMBXShapeSourceManager(private val mContext: ReactApplicationContext, val
 
     @ReactProp(name = "hitbox")
     override fun setHitbox(source: RNMBXShapeSource, map: Dynamic) {
-        source.setHitbox(map.asMap())
+        val readableMap = map.asMap() ?: return
+        source.setHitbox(readableMap)
     }
 
     override fun customEvents(): Map<String, String>? {

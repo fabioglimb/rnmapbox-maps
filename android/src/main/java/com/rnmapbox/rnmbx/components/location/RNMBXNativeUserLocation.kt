@@ -163,7 +163,9 @@ class RNMBXNativeUserLocation(context: Context) : AbstractMapFeature(context), O
             if (pulsing.hasKey("color")) {
                 when (pulsing.getType("color")) {
                     ReadableType.Map ->
-                        location2.pulsingColor = ColorPropConverter.getColor(pulsing.getMap("color"), mContext)
+                        ColorPropConverter.getColor(pulsing.getMap("color"), mContext)?.let {
+                            location2.pulsingColor = it
+                        } ?: Logger.e(LOG_TAG, "pulsing.color is a map but could not be parsed to a color.")
                     ReadableType.Number ->
                         location2.pulsingColor = pulsing.getInt("color")
                     else ->

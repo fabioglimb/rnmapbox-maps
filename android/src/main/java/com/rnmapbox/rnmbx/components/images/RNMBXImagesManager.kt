@@ -73,7 +73,7 @@ class RNMBXImagesManager(private val mContext: ReactApplicationContext) :
     @ReactProp(name = "images")
     override fun setImages(images: RNMBXImages, map: Dynamic) {
         val imagesList = mutableListOf<Map.Entry<String, ImageEntry>>()
-        map.asMap().forEach { imageName, imageInfo ->
+        map.asMap()?.forEach { imageName, imageInfo ->
             when (imageInfo) {
                 is ReadableMap -> {
                     val uri = imageInfo.getString("uri")
@@ -160,7 +160,7 @@ class RNMBXImagesManager(private val mContext: ReactApplicationContext) :
     fun toNativeImage(dynamic: Dynamic): NativeImage? {
         when (dynamic.type) {
             ReadableType.String -> {
-                val resourceName = dynamic.asString();
+                val resourceName = dynamic.asString() ?: return null;
                 val drawable =
                     convertDrawableToBitmap(ResourceUtils.getDrawableByName(mContext, resourceName))
                 if (drawable != null) {
@@ -171,7 +171,7 @@ class RNMBXImagesManager(private val mContext: ReactApplicationContext) :
                 }
             }
             ReadableType.Map -> {
-                val map = dynamic.asMap()
+                val map = dynamic.asMap() ?: return null
                 val resourceName = map.getString("name")
                 val drawable =
                     convertDrawableToBitmap(ResourceUtils.getDrawableByName(mContext, resourceName))
@@ -192,8 +192,9 @@ class RNMBXImagesManager(private val mContext: ReactApplicationContext) :
     @ReactProp(name = "nativeImages")
     override fun setNativeImages(images: RNMBXImages, arr: Dynamic) {
         val nativeImages = mutableListOf<NativeImage>();
-        for (i in 0 until arr.asArray().size()) {
-            val nativeImage = toNativeImage(arr.asArray().getDynamic(i))
+        val array = arr.asArray() ?: return
+        for (i in 0 until array.size()) {
+            val nativeImage = toNativeImage(array.getDynamic(i))
             if (nativeImage != null) {
                 nativeImages.add(nativeImage)
             }
@@ -240,8 +241,8 @@ class RNMBXImagesManager(private val mContext: ReactApplicationContext) :
                 Logger.e("RNMBXImages", "stretch should be an array, got $stretch")
                 return null
             }
-            val array = stretch.asArray()
-            var result = mutableListOf<ImageStretches>();
+            val array = stretch.asArray() ?: return null
+            val result = mutableListOf<ImageStretches>();
             for (i in 0 until array.size()) {
                 if (array.getType(i) != ReadableType.Array) {
                     Logger.e("RNMBXImages", "each element of strech should be an array but was: ${array.getDynamic(i)}")
@@ -265,7 +266,7 @@ class RNMBXImagesManager(private val mContext: ReactApplicationContext) :
                 Logger.e("RNMBXImages", "content should be an array, got $content")
                 return null
             }
-            val array = content.asArray()
+            val array = content.asArray() ?: return null
             if (array.size() != 4) {
                 Logger.e("RNMBXImages", "content should be an array of 4 numbers, got $content")
                 return null

@@ -49,10 +49,11 @@ class RNMBXStyleImportManager(context: ReactApplicationContext) :
 
     @ReactProp(name = "config")
     override fun setConfig(view: RNMBXStyleImport, value: Dynamic) {
+        val valueMap = value.asMap() ?: return
         if (value.type != ReadableType.Map) {
             Logger.e(REACT_CLASS, "config expected Map but received: ${value.type}")
         } else {
-            view.config = value.asMap().toValueHashMap()
+            view.config = valueMap.toValueHashMap()
         }
     }
 }

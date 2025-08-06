@@ -40,9 +40,10 @@ abstract class RNMBXTileSourceManager<T : RNMBXTileSource<*>> internal construct
     @ReactProp(name = "tileUrlTemplates")
     fun setTileUrlTemplates(source: T, tileUrlTemplates: Dynamic) {
         val urls: MutableList<String> = ArrayList()
-        for (i in 0 until tileUrlTemplates.asArray().size()) {
-            if (tileUrlTemplates.asArray().getType(0) == ReadableType.String) {
-                tileUrlTemplates.asArray().getString(i)?.let { urls.add(it) } ?: Logger.d("RNMBXTileSource", "Skipping null URL template at index $i")
+        val titleUrlTemplatesArray = tileUrlTemplates.asArray() ?: return
+        for (i in 0 until titleUrlTemplatesArray.size()) {
+            if (titleUrlTemplatesArray.getType(0) == ReadableType.String) {
+                titleUrlTemplatesArray.getString(i)?.let { urls.add(it) } ?: Logger.d("RNMBXTileSource", "Skipping null URL template at index $i")
             }
         }
         source!!.tileUrlTemplates = urls

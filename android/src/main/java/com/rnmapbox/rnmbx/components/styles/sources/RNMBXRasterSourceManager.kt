@@ -47,11 +47,12 @@ class RNMBXRasterSourceManager(reactApplicationContext: ReactApplicationContext)
 
     @ReactProp(name = "sourceBounds")
     override fun setSourceBounds(source: RNMBXRasterSource, value: Dynamic) {
-        if (value.type != ReadableType.Array || value.asArray().size() != 4) {
+        val valueArray = value.asArray() ?: return
+        if (value.type != ReadableType.Array || valueArray.size() != 4) {
            Logger.e(REACT_CLASS, "source bounds must be an array with left, bottom, top, and right values")
            return
         }
-        val bboxArray = Array(4) { i -> value.asArray().getDouble(i) }
+        val bboxArray = Array(4) { i -> valueArray.getDouble(i) }
 
         if(!this.validateBbox(bboxArray)){
             Logger.e(REACT_CLASS, "source bounds contain invalid bbox")

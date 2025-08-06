@@ -31,7 +31,7 @@ fun ReadableMap.toValue() : Value {
 }
 
 fun ReadableArray.toValue(): Value {
-    var result = ArrayList<Value>(size())
+    val result = ArrayList<Value>(size())
 
     for (i in 0 until size()) {
         when (getType(i)) {
@@ -55,10 +55,10 @@ fun Dynamic.toValue(): Value {
         ReadableType.Null -> Value.nullValue()
         ReadableType.Boolean -> Value.valueOf(asBoolean())
         ReadableType.Number -> Value.valueOf(asDouble())
-        ReadableType.String -> Value.valueOf(asString())
-        ReadableType.Array -> asArray().toValue()
-        ReadableType.Map -> asMap().toValue()
-    }
+        ReadableType.String -> asString()?.let { Value.valueOf(it) }
+        ReadableType.Array -> asArray()?.toValue()
+        ReadableType.Map -> asMap()?.toValue()
+    } ?: Value.nullValue()
 }
 
 fun Dynamic.asBooleanOrNull(): Boolean? {

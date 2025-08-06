@@ -38,13 +38,14 @@ class RNMBXMarkerViewManager(reactApplicationContext: ReactApplicationContext) :
 
     @ReactProp(name = "coordinate")
     override fun setCoordinate(markerView: RNMBXMarkerView, value: Dynamic) {
-        val array = value.asArray()
+        val array = value.asArray() ?: return
         markerView.setCoordinate(toGNPointGeometry(LatLng(array.getDouble(1), array.getDouble(0))))
     }
 
     @ReactProp(name = "anchor")
     override fun setAnchor(markerView: RNMBXMarkerView, map: Dynamic) {
-        markerView.setAnchor(map.asMap().getDouble("x").toFloat(), map.asMap().getDouble("y").toFloat())
+        val readableMap = map.asMap() ?: return
+        markerView.setAnchor(readableMap.getDouble("x").toFloat(), readableMap.getDouble("y").toFloat())
     }
 
     @ReactProp(name = "allowOverlap")
