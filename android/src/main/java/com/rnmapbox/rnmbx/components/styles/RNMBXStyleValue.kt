@@ -223,7 +223,7 @@ class RNMBXStyleValue(config: ReadableMap) {
             val dynamic = mPayload!!.getDynamic("value")
             if (dynamic.type == ReadableType.Array) {
                 val array = dynamic.asArray()
-                if (array.size() > 0 && mPayload.getString("type") == "array") {
+                if (array != null && array.size() > 0 && mPayload.getString("type") == "array") {
                     val map = array.getMap(0)
                     if (map != null && map.getString("type") == "string") {
                         isExpression = true

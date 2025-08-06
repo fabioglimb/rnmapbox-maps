@@ -34,7 +34,8 @@ class RNMBXCameraManager(private val mContext: ReactApplicationContext, val view
     @ReactProp(name = "stop")
     override fun setStop(camera: RNMBXCamera, map: Dynamic) {
         if (!map.isNull) {
-            val stop = fromReadableMap(mContext, map.asMap(), null)
+            val readableMap = map.asMap() ?: return
+            val stop = fromReadableMap(mContext, readableMap, null)
             camera.setStop(stop)
         }
     }
@@ -42,7 +43,8 @@ class RNMBXCameraManager(private val mContext: ReactApplicationContext, val view
     @ReactProp(name = "defaultStop")
     override fun setDefaultStop(camera: RNMBXCamera, map: Dynamic) {
         if (!map.isNull) {
-            val stop = fromReadableMap(mContext, map.asMap(), null)
+            val readableMap = map.asMap() ?: return
+            val stop = fromReadableMap(mContext, readableMap, null)
             camera.setDefaultStop(stop)
         }
     }
@@ -95,13 +97,15 @@ class RNMBXCameraManager(private val mContext: ReactApplicationContext, val view
 
     @ReactProp(name = "followPadding")
     override fun setFollowPadding(camera: RNMBXCamera, value: Dynamic) {
-        camera.setFollowPadding(value.asMap())
+        val valueMap = value.asMap() ?: return
+        camera.setFollowPadding(valueMap)
     }
 
     @ReactProp(name = "maxBounds")
     override fun setMaxBounds(camera: RNMBXCamera, value: Dynamic) {
         if (!value.isNull) {
-            val collection = FeatureCollection.fromJson(value.asString())
+            val valueString = value.asString() ?: return
+            val collection = FeatureCollection.fromJson(valueString)
             camera.setMaxBounds(toLatLngBounds(collection))
         } else {
             camera.setMaxBounds(null)

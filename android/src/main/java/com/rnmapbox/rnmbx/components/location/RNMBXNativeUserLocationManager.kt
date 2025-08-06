@@ -109,7 +109,7 @@ fun _convertToDoubleValueOrExpression(value: Dynamic?, name: String): Value? {
     }
     return when (value.type) {
         ReadableType.Array ->
-            Expression.fromRaw(Gson().toJson(value.asArray().toJsonArray()))
+            Expression.fromRaw(Gson().toJson(value.asArray()?.toJsonArray()))
         ReadableType.Number ->
             Value.valueOf(value.asDouble())
         else -> {

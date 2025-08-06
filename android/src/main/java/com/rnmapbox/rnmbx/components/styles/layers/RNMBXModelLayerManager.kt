@@ -65,7 +65,8 @@ class RNMBXModelLayerManager : ViewGroupManager<RNMBXModelLayer>(),
 
     @ReactProp(name = "sourceLayerID")
     override fun setSourceLayerID(layer: RNMBXModelLayer, sourceLayerID: Dynamic) {
-        layer.setSourceLayerID(sourceLayerID.asString())
+        val sourceLayerIDString = sourceLayerID.asString() ?: return
+        layer.setSourceLayerID(sourceLayerIDString)
     }
 
     @ReactProp(name = "filter")

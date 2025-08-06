@@ -69,7 +69,8 @@ class RNMBXPointAnnotationManager(reactApplicationContext: ReactApplicationConte
 
     @ReactProp(name = "anchor")
     override fun setAnchor(annotation: RNMBXPointAnnotation, map: Dynamic) {
-        annotation.setAnchor(map.asMap().getDouble("x").toFloat(), map.asMap().getDouble("y").toFloat())
+        val readableMap = map.asMap() ?: return
+        annotation.setAnchor(readableMap.getDouble("x").toFloat(), readableMap.getDouble("y").toFloat())
     }
 
     @ReactProp(name = "draggable")
